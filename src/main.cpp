@@ -28,13 +28,6 @@
 
 using std::string;
 
-using std::cout;
-using std::cerr;
-using std::endl;
-
-using std::sin;
-using std::cos;
-
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     (void)window;
@@ -70,32 +63,6 @@ GLFWwindow *createWindow()
     return window;
 }
 
-void print_welcome()
-{
-    std::cout << BRIGHT_YELLOW "\nWelcome to the Scop program!" RESET << std::endl;
-    std::cout << "|----- Controls -----" << std::endl;
-    std::cout << "|       wasd | camera movement" << std::endl;
-    std::cout << "|      mouse | camera direction" << std::endl;
-    std::cout << "|left, right | change 3D model" << std::endl;
-    std::cout << "|   up, down | change color palette" << std::endl;
-    std::cout << "|          f | show grid & axis" << std::endl;
-    std::cout << "|          c | camera orbit" << std::endl;
-    std::cout << "|          t | apply texture" << std::endl;
-    std::cout << "|          p | pause rotation" << std::endl;
-    std::cout << "|     scroll | change camera speed" << std::endl;
-    std::cout << "|ctrl+scroll | change fov" << std::endl;
-    std::cout << "|--------------------" << std::endl << std::endl;
-
-    std::vector<std::string> obj_list = get_sorted_file_list("resources/", ".obj");
-
-    std::cout << "Available objects:" << std::endl;
-    for (size_t i = 0; i < obj_list.size(); i++)
-    {
-        std::cout << i << ": " << obj_list[i] << std::endl;
-    }
-    std::cout << std::endl;
-}
-
 int main(int argc, char** argv)
 {
     print_welcome();
@@ -105,18 +72,14 @@ int main(int argc, char** argv)
     Camera camera = Camera(vec3(3,2,3), vec2(-135,-30));
     LineDrawer linedrawer = LineDrawer();
     Scop scop;
+    Skybox skybox;
     InputManager inputManager = InputManager(window, &camera, &scop, &linedrawer);
 
     std::string filename = (argc >= 2 ? argv[1] : "teapot.obj");
     scop.load(filename);
 
     Shader defaultshader = Shader("shaders/default.vert", "shaders/default.frag");
-
     scop.setShader(&defaultshader);
-
-    // unsigned int texture1 = load_image("assets/earth.jpg", GL_REPEAT);
-
-    Skybox skybox;
 
     //uncap frame rate to maximise fps
     glfwSwapInterval(0);

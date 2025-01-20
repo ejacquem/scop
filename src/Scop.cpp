@@ -16,7 +16,7 @@ Scop::Scop()
     textures[3] = load_image("assets/kitten.jpg", GL_REPEAT);
     textures[4] = load_image("assets/kitten2.jpg", GL_REPEAT);
     textures[5] = load_image("assets/cutecat.png", GL_REPEAT, 4);
-    textures[6] = load_image("undefined", GL_REPEAT, 4);
+    textures[6] = load_image("undefined", GL_REPEAT);
     textures_nbr = 7;
 
     glActiveTexture(GL_TEXTURE0);
@@ -43,10 +43,7 @@ void Scop::swap(int direction)
 
 void Scop::swap_image(int direction)
 {
-    std::cout << "current_texture_id: " << current_texture_id << std::endl;
-    std::cout << "direction: " << direction << std::endl;
     current_texture_id = (current_texture_id + direction + textures_nbr) % textures_nbr;
-    std::cout << "current_texture_id: " << current_texture_id << std::endl << std::endl;
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textures[current_texture_id]);
 }

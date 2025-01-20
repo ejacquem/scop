@@ -1,5 +1,31 @@
 #include "utils.hpp"
 
+void print_welcome()
+{
+    std::cout << BRIGHT_YELLOW "\nWelcome to the Scop program!" RESET << std::endl;
+    std::cout << "|----- Controls -----" << std::endl;
+    std::cout << "|       wasd | camera movement" << std::endl;
+    std::cout << "|      mouse | camera direction" << std::endl;
+    std::cout << "|left, right | change 3D model" << std::endl;
+    std::cout << "|   up, down | change color palette" << std::endl;
+    std::cout << "|          f | show grid & axis" << std::endl;
+    std::cout << "|          c | camera orbit" << std::endl;
+    std::cout << "|          t | apply texture" << std::endl;
+    std::cout << "|          p | pause rotation" << std::endl;
+    std::cout << "|     scroll | change camera speed" << std::endl;
+    std::cout << "|ctrl+scroll | change fov" << std::endl;
+    std::cout << "|--------------------" << std::endl << std::endl;
+
+    std::vector<std::string> obj_list = get_sorted_file_list("resources/", ".obj");
+
+    std::cout << "Available objects:" << std::endl;
+    for (size_t i = 0; i < obj_list.size(); i++)
+    {
+        std::cout << i << ": " << obj_list[i] << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 // @return A sorted list of object files in the directory with the given extension.
 std::vector<std::string> get_sorted_file_list(const std::string& directory, const std::string& extension)
 {
@@ -72,7 +98,7 @@ unsigned int load_image(const char *path, int option1, int nb_channel)
 
     if (data)
     {
-        std::cout << "loading image: " << path << " channel nbr: " << nrChannels << std::endl;
+        std::cout << "loading image: " << path << ", channel nbr: " << nrChannels << std::endl;
         if (nrChannels == 3) {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         }
@@ -89,8 +115,7 @@ unsigned int load_image(const char *path, int option1, int nb_channel)
         int default_img[4] = {b,m,m,b};
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 2, 2, 0, GL_RGBA, GL_UNSIGNED_BYTE, default_img);
         glGenerateMipmap(GL_TEXTURE_2D);
-        std::cout << "Failed to load texture: " << path << " nbr channel: " << nrChannels  << std::endl;
-        std::cout << "stbi error: " << stbi_failure_reason() << std::endl;
+        std::cout << "Failed to load texture: " << path << ", stbi error: " << stbi_failure_reason() << std::endl;
     }
     return texture;
 }
