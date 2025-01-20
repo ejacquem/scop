@@ -154,7 +154,8 @@ void ObjectLoader::parseIndice(const char *line)
     while((line = strchr(line + 1, ' ')))
     {
         k = atoi(line);
-        indices_buffer.push_back({i - 1, j - 1, k - 1});
+        if ((size_t)i < vertices_buffer.size() && (size_t)j < vertices_buffer.size() && (size_t)k < vertices_buffer.size())
+            indices_buffer.push_back({i - 1, j - 1, k - 1});
         j = k;
     }
 }
