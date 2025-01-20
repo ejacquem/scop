@@ -18,6 +18,10 @@ public:
     int color_palette_id;
     float color_mix;
     float rotation_speed; // deg / sec
+    
+    unsigned int current_texture_id;
+    unsigned int textures[16];
+    unsigned int textures_nbr;
 
     inline float static const DEFAULT_SPEED = 1;
 
@@ -25,6 +29,7 @@ public:
     ~Scop();
 
     void swap(int direction);
+    void swap_image(int direction);
     void draw(const GLfloat *model, const GLfloat *view, const GLfloat *projection);
     void load(const std::string &filename);
     void setShader(Shader *shader);

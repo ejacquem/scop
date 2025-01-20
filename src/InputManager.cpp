@@ -19,19 +19,6 @@ InputManager::~InputManager(){};
 
 void InputManager::processInput(GLFWwindow *window)
 {
-    if (GET_KEY_PRESS(UP))
-    {
-        mixValue += 0.0001f;
-        if(mixValue >= 1.0f)
-            mixValue = 1.0f;
-        // cout << "mixvalue: " << mixValue << endl;
-    }
-    if (GET_KEY_PRESS(DOWN))
-    {
-        mixValue -= 0.0001f;
-        if (mixValue <= 0.0f)
-            mixValue = 0.0f;
-    }
     if (GET_KEY_PRESS(W))
         camera->processKeyboard(FORWARD, Time::deltaTime);
     if (GET_KEY_PRESS(S))
@@ -101,12 +88,16 @@ void InputManager::key_callback(GLFWwindow* window, int key, int scancode, int a
         camera->rotate = !camera->rotate;
     if (key == GLFW_KEY_UP && action == GLFW_PRESS)
     {
-        if(scop->color_palette_id < 5)
+        if(scop->color_mix == 0.0f)
+            scop->swap_image(1);
+        else if(scop->color_palette_id < 5)
             scop->color_palette_id++;
     }
     if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
     {
-        if(scop->color_palette_id > 0)
+        if(scop->color_mix == 0.0f)
+            scop->swap_image(-1);
+        else if(scop->color_palette_id > 0)
             scop->color_palette_id--;
     }
     if (key == GLFW_KEY_T && action == GLFW_PRESS)

@@ -17,6 +17,7 @@ SRC		= src/main.cpp src/Shader.cpp\
 			src/Scop.cpp\
 			src/InputManager.cpp\
 			src/math.cpp\
+			src/Skybox.cpp\
 
 FILE?=teapot
 

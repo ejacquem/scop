@@ -22,10 +22,9 @@ private:
 
     std::vector<Vertextex> vertices_buffer;
     std::vector<Indice> indices_buffer;
-    void parseLine(const std::string& line);
     void parseLine(const char *line);
-    void parseIndice(std::istringstream& stream);
     void parseIndice(const char *line);
+    void fixSeamTexture();
 
     void reset();
 

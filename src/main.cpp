@@ -13,12 +13,14 @@
 #include "InputManager.hpp"
 #include "Scop.hpp"
 #include "Math.hpp"
+#include "Skybox.hpp"
 
 #include <iostream>
 #include <cstring>
 #include <cmath>
 #include <filesystem>
 #include <algorithm>
+#include <vector>
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
@@ -112,10 +114,9 @@ int main(int argc, char** argv)
 
     scop.setShader(&defaultshader);
 
-    stbi_set_flip_vertically_on_load(true);
-
     // unsigned int texture1 = load_image("assets/earth.jpg", GL_REPEAT);
-    unsigned int texture1 = load_image("assets/goodman.jpg", GL_REPEAT);
+
+    Skybox skybox;
 
     //uncap frame rate to maximise fps
     glfwSwapInterval(0);
@@ -133,24 +134,24 @@ int main(int argc, char** argv)
         glClearColor(0.7f, 0.7f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1);
-
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
         // create transformations
         model = rotate_y(model, scop.rotation_speed * Time::deltaTime);
         mat4 view          = camera.GetViewMatrix();
-        mat4 projection    = perspective(radians(camera.fov), ASPECT_RATIO, 0.0001f, 10000.0f);
+        mat4 projection    = perspective(radians(camera.fov), (float)width/(float)height, 0.0001f, 10000.0f);
 
         scop.draw((const GLfloat *)&model, (const GLfloat *)&view, (const GLfloat *)&projection);
 
         linedrawer.draw((const GLfloat *)&view, (const GLfloat *)&projection);
+
+        skybox.draw(view, projection);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
     std::cout << "Closing window\n";
-    glDeleteTextures(1, &texture1);
     glfwDestroyWindow(window);
     glfwTerminate();
 

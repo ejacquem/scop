@@ -52,8 +52,11 @@ int get_file_index(const std::string& filename, const std::string& directory)
 #include "stb_image.h" //load texture
 
 // Load an image from the given path and return the texture ID.
-int load_image(const char *path, int option1)
+// @param nb_channel force stbi to use this nb of channel
+unsigned int load_image(const char *path, int option1, int nb_channel)
 {
+    stbi_set_flip_vertically_on_load(true);
+
     unsigned int texture;
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -63,10 +66,13 @@ int load_image(const char *path, int option1)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     int width = 0, height = 0, nrChannels = 0;
-    unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load(path, &width, &height, &nrChannels, nb_channel);
+    if(nb_channel)
+        nrChannels = nb_channel;
+
     if (data)
     {
-        std::cout << "Loaded texture: " << path << std::endl;
+        std::cout << "loading image: " << path << " channel nbr: " << nrChannels << std::endl;
         if (nrChannels == 3) {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         }
@@ -88,3 +94,46 @@ int load_image(const char *path, int option1)
     }
     return texture;
 }
+
+unsigned int loadCubemap(std::vector<std::string> faces)
+{
+    stbi_set_flip_vertically_on_load(false);
+
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+    
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    int width, height, nrChannels;
+    for (unsigned int i = 0; i < faces.size(); i++)
+    {
+        unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            if (width != height) {
+                std::cout << "Cubemap texture must be square: width " << width << ", height: " << height << " for " << faces[i] << std::endl;
+                stbi_image_free(data);
+                continue;
+            }
+            if (nrChannels == 3) {
+                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            }
+            else if (nrChannels == 4) {
+                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            }
+            stbi_image_free(data);
+        }
+        else
+        {
+            std::cout << "Cubemap tex failed to load at path: " << faces[i] << std::endl;
+            stbi_image_free(data);
+        }
+    }
+
+    return textureID;
+}  
