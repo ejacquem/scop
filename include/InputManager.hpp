@@ -28,7 +28,8 @@ private:
     float mixValue;
     int inputMode;
     bool wireframe = false;
-
+    bool capturing_mouse = true;
+    bool firstMouse = true;
 
 public:
     InputManager(GLFWwindow *window, Camera *camera, Scop *scop, LineDrawer *lineDrawer);
@@ -44,6 +45,8 @@ public:
     void scroll_callback(GLFWwindow *window, double horizontal, double vertcial);
     void mouse_callback(GLFWwindow* window, double xpos, double ypos);
     void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+    void window_focus_callback(GLFWwindow* window, int focused);
+    void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 };
 
 #endif

@@ -12,7 +12,8 @@ void print_welcome()
     std::cout << "|          c | camera orbit" << std::endl;
     std::cout << "|          t | apply texture" << std::endl;
     std::cout << "|          p | pause rotation" << std::endl;
-    std::cout << "|          v | switch to object control " << std::endl;
+    std::cout << "|          v | switch to object control" << std::endl;
+    std::cout << "|          x | switch wireframe mode" << std::endl;
     std::cout << "|     scroll | change camera speed" << std::endl;
     std::cout << "|ctrl+scroll | change fov" << std::endl;
     std::cout << "|--------------------" << std::endl << std::endl;

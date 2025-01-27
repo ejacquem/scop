@@ -26,6 +26,8 @@ enum Camera_Scroll_Mode {
 #define FOV          90.0f
 #define MIN_FOV      15.0f
 #define MAX_FOV      150.0f
+#define MAX_SPEED    100.0f
+#define MIN_SPEED    0.01f
 
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
 class Camera
@@ -95,6 +97,10 @@ public:
     Camera& setSpeed(float speed)
     {
         this->speed = speed;
+        if (this->speed > MAX_SPEED)
+            this->speed = MAX_SPEED;
+        if (this->speed < MIN_SPEED)
+            this->speed = MIN_SPEED;
         return *this;
     }
 
@@ -107,6 +113,10 @@ public:
     Camera& setFov(float fov)
     {
         this->fov = fov;
+        if (this->fov > MAX_FOV)
+            this->fov = MAX_FOV;
+        if (this->fov < MIN_FOV)
+            this->fov = MIN_FOV;
         return *this;
     }
 
@@ -182,19 +192,10 @@ public:
     void processMouseScroll(float yoffset, Camera_Scroll_Mode mode)
     {
         if (mode == SPEED_MODE)
-        {
-            speed *= pow(1.5, yoffset);
-            if(speed < 0.01)
-                speed = 0.01;
-        }
+            setSpeed(this->speed * pow(1.5, yoffset));
         if (mode == FOV_MODE)
-        {
-            fov -= (float)(yoffset * 2);
-            if (fov < MIN_FOV)
-                fov = MIN_FOV;
-            if (fov > MAX_FOV)
-                fov = MAX_FOV;
-        }
+            setFov(fov - (float)(yoffset * 2));
+        std::cout << "speed: " << this->speed << std::endl;
     }
 
 private:

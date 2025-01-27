@@ -36,16 +36,13 @@ void InputManager::processInput(GLFWwindow *window)
     }
     if (inputMode == InputManager::MOVE_OBJECT){
         if (GET_KEY_PRESS(W))
-        {
-            std::cout << "moving object: " << scop->position.x << std::endl;
             scop->position.x += scop->move_speed * Time::deltaTime;
-        }
         if (GET_KEY_PRESS(S))
             scop->position.x -= scop->move_speed * Time::deltaTime;
         if (GET_KEY_PRESS(A))
-            scop->position.z += scop->move_speed * Time::deltaTime;
-        if (GET_KEY_PRESS(D))
             scop->position.z -= scop->move_speed * Time::deltaTime;
+        if (GET_KEY_PRESS(D))
+            scop->position.z += scop->move_speed * Time::deltaTime;
         if (GET_KEY_PRESS(SPACE))
             scop->position.y += scop->move_speed * Time::deltaTime;
         if (GET_KEY_PRESS(LEFT_SHIFT))
@@ -71,6 +68,16 @@ void InputManager::set_callback_functions(GLFWwindow *window)
         InputManager *inputManager = static_cast<InputManager*>(glfwGetWindowUserPointer(window));
         inputManager->key_callback(window, key, scancode, action, mode);
     });
+    glfwSetWindowFocusCallback(window, [](GLFWwindow* window, int focused)
+    {
+        InputManager *inputManager = static_cast<InputManager*>(glfwGetWindowUserPointer(window));
+        inputManager->window_focus_callback(window, focused);
+    });
+    glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
+    {
+        InputManager *inputManager = static_cast<InputManager*>(glfwGetWindowUserPointer(window));
+        inputManager->mouse_button_callback(window, button, action, mods);
+    });
 }
 
 void InputManager::scroll_callback(GLFWwindow *window, double horizontal, double vertcial)
@@ -84,6 +91,15 @@ void InputManager::scroll_callback(GLFWwindow *window, double horizontal, double
 
 void InputManager::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
+    if (capturing_mouse == false)
+        return;
+
+    if (firstMouse) {
+        this->lastX = xpos;
+        this->lastY = ypos;
+        firstMouse = false;
+    }
+
     float xoffset = xpos - lastX;
     float yoffset = lastY - ypos; 
     this->lastX = xpos;
@@ -141,4 +157,23 @@ void InputManager::key_callback(GLFWwindow* window, int key, int scancode, int a
     }
     (void)scancode;
     (void)mode;
+}
+
+void InputManager::window_focus_callback(GLFWwindow* window, int focused) {
+    if (focused == false) {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        capturing_mouse = false;
+    }
+}
+
+void InputManager::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    if (action == GLFW_PRESS) {
+        if (button == GLFW_MOUSE_BUTTON_LEFT) {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            capturing_mouse = true;
+            firstMouse = true;
+        }
+    }
+    (void)mods;
 }

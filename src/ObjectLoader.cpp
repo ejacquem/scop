@@ -91,9 +91,8 @@ void ObjectLoader::parseIndice(const char *line)
         k = atoi(line);
         int max_vertex_id = vertices_buffer.size();
         // check if id or indices is valid so Alex can stop crashing my scop
-        //if (i <= max_vertex_id && j <= max_vertex_id && k <= max_vertex_id)
+        if (i <= max_vertex_id && j <= max_vertex_id && k <= max_vertex_id)
             indices_buffer.push_back({i - 1, j - 1, k - 1});
-           (void) max_vertex_id;
         j = k;
     }
 }

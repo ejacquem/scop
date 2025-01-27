@@ -190,10 +190,8 @@ struct mat4
     }
     mat4 operator*(const mat4& o){
         mat4 result;
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 result[i][j] = 
                 data[i][0] * o[0][j] + 
                 data[i][1] * o[1][j] + 

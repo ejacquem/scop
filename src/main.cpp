@@ -89,6 +89,7 @@ int main(int argc, char** argv)
     linedrawer.add_ygrid(5, 1);
 
     mat4 model = mat4(1.0f); // make sure to initialize matrix to identity matrix first
+    model = rotate_y(model, 90);
     while (!glfwWindowShouldClose(window))
     {
         inputManager.processInput(window);
