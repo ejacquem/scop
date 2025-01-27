@@ -7,6 +7,7 @@
 #include "ObjectLoader.hpp"
 #include "LineDrawer.hpp"
 #include "utils.hpp"
+#include "Math.hpp"
 
 #define OBJ_PATH "resources/"
 
@@ -18,7 +19,10 @@ public:
     int color_palette_id;
     float color_mix;
     float rotation_speed; // deg / sec
-    
+    float move_speed; // unit / sec
+    vec3 position;
+    vec3 direction;
+
     unsigned int current_texture_id;
     unsigned int textures[16];
     unsigned int textures_nbr;
@@ -33,6 +37,7 @@ public:
     void draw(const GLfloat *model, const GLfloat *view, const GLfloat *projection);
     void load(const std::string &filename);
     void setShader(Shader *shader);
+    void move();
 
 private:
     Shader *shader;

@@ -9,6 +9,7 @@ InputManager::InputManager(GLFWwindow *window, Camera *camera, Scop *scop, LineD
     lastX =  800.0f / 2.0;
     lastY =  600.0 / 2.0;
     mixValue = 0;
+    inputMode = InputManager::MOVE_CAMERA;
     // std::cout << "InputManager Constructor" << std::endl;
 
     glfwSetWindowUserPointer(window, this);
@@ -19,18 +20,37 @@ InputManager::~InputManager(){};
 
 void InputManager::processInput(GLFWwindow *window)
 {
-    if (GET_KEY_PRESS(W))
-        camera->processKeyboard(FORWARD, Time::deltaTime);
-    if (GET_KEY_PRESS(S))
-        camera->processKeyboard(BACKWARD, Time::deltaTime);
-    if (GET_KEY_PRESS(A))
-        camera->processKeyboard(LEFT, Time::deltaTime);
-    if (GET_KEY_PRESS(D))
-        camera->processKeyboard(RIGHT, Time::deltaTime);
-    if (GET_KEY_PRESS(SPACE))
-        camera->processKeyboard(UP, Time::deltaTime);
-    if (GET_KEY_PRESS(LEFT_SHIFT))
-        camera->processKeyboard(DOWN, Time::deltaTime);
+    if (inputMode == InputManager::MOVE_CAMERA){
+        if (GET_KEY_PRESS(W))
+            camera->processKeyboard(FORWARD, Time::deltaTime);
+        if (GET_KEY_PRESS(S))
+            camera->processKeyboard(BACKWARD, Time::deltaTime);
+        if (GET_KEY_PRESS(A))
+            camera->processKeyboard(LEFT, Time::deltaTime);
+        if (GET_KEY_PRESS(D))
+            camera->processKeyboard(RIGHT, Time::deltaTime);
+        if (GET_KEY_PRESS(SPACE))
+            camera->processKeyboard(UP, Time::deltaTime);
+        if (GET_KEY_PRESS(LEFT_SHIFT))
+            camera->processKeyboard(DOWN, Time::deltaTime);
+    }
+    if (inputMode == InputManager::MOVE_OBJECT){
+        if (GET_KEY_PRESS(W))
+        {
+            std::cout << "moving object: " << scop->position.x << std::endl;
+            scop->position.x += scop->move_speed * Time::deltaTime;
+        }
+        if (GET_KEY_PRESS(S))
+            scop->position.x -= scop->move_speed * Time::deltaTime;
+        if (GET_KEY_PRESS(A))
+            scop->position.z += scop->move_speed * Time::deltaTime;
+        if (GET_KEY_PRESS(D))
+            scop->position.z -= scop->move_speed * Time::deltaTime;
+        if (GET_KEY_PRESS(SPACE))
+            scop->position.y += scop->move_speed * Time::deltaTime;
+        if (GET_KEY_PRESS(LEFT_SHIFT))
+            scop->position.y -= scop->move_speed * Time::deltaTime;
+    }
 }
 
 // void processInput(GLFWwindow *window, float deltaTime){};
@@ -108,6 +128,16 @@ void InputManager::key_callback(GLFWwindow* window, int key, int scancode, int a
             scop->rotation_speed = Scop::DEFAULT_SPEED;
         else
             scop->rotation_speed = 0;
+    }
+    if (key == GLFW_KEY_V && action == GLFW_PRESS)
+        inputMode = (inputMode == MOVE_CAMERA ? MOVE_OBJECT: MOVE_CAMERA);
+    if (key == GLFW_KEY_X && action == GLFW_PRESS)
+    {
+        wireframe = !wireframe;
+        if (wireframe)
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        else
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
     (void)scancode;
     (void)mode;

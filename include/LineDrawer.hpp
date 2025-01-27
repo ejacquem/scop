@@ -24,7 +24,7 @@ private:
     int vertex_size;
     Shader shader;
     GLuint vao, vbo;
-    bool toggled = true;
+    bool toggled = false;
     // VAO vao;
     // VBO vbo;
     void computeBuffer();

@@ -91,8 +91,9 @@ void ObjectLoader::parseIndice(const char *line)
         k = atoi(line);
         int max_vertex_id = vertices_buffer.size();
         // check if id or indices is valid so Alex can stop crashing my scop
-        if (i <= max_vertex_id && j <= max_vertex_id && k <= max_vertex_id)
+        //if (i <= max_vertex_id && j <= max_vertex_id && k <= max_vertex_id)
             indices_buffer.push_back({i - 1, j - 1, k - 1});
+           (void) max_vertex_id;
         j = k;
     }
 }
@@ -134,7 +135,7 @@ void ObjectLoader::fixSeamTexture()
         float u3 = vertices_buffer[i.z].u;
 
         bool is_one_vertex_near_0_0 = u1 <= 0.1 || u2 <= 0.1 || u3 <= 0.1;
-        bool is_one_vertex_near_0_9 = u1 > 0.5 || u2 > 0.5 || u3 > 0.5;
+        bool is_one_vertex_near_0_9 = u1 > 0.8 || u2 > 0.8 || u3 > 0.8;
 
         if (is_one_vertex_near_0_0 && is_one_vertex_near_0_9)
         {

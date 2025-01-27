@@ -9,15 +9,19 @@ Scop::Scop()
     rotation_speed = Scop::DEFAULT_SPEED;
     object = nullptr;
     current_texture_id = 0;
+    position = vec3(0.0f);
+    direction = vec3(0.0f);
+    move_speed = 2;
 
     textures[0] = load_image("assets/goodman.jpg", GL_REPEAT);
-    textures[1] = load_image("assets/nyancat.png", GL_REPEAT);
+    textures[1] = load_image("assets/earth.jpg", GL_REPEAT);
     textures[2] = load_image("assets/skybox_space/back.png", GL_REPEAT);
-    textures[3] = load_image("assets/kitten.jpg", GL_REPEAT);
-    textures[4] = load_image("assets/kitten2.jpg", GL_REPEAT);
-    textures[5] = load_image("assets/cutecat.png", GL_REPEAT, 4);
-    textures[6] = load_image("undefined", GL_REPEAT);
-    textures_nbr = 7;
+    textures[3] = load_image("assets/nyancat.png", GL_REPEAT);
+    textures[4] = load_image("assets/kitten.jpg", GL_REPEAT);
+    textures[5] = load_image("assets/kitten2.jpg", GL_REPEAT);
+    textures[6] = load_image("assets/cutecat.png", GL_REPEAT, 4);
+    textures[7] = load_image("undefined", GL_REPEAT);
+    textures_nbr = 8;
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textures[0]);
@@ -53,6 +57,7 @@ void Scop::draw(const GLfloat *model, const GLfloat *view, const GLfloat *projec
     if(object == NULL)
         return;
     shader->use();
+    (*(mat4 *)model)[3] = vec4(position.x, position.y, position.z, 1);
     shader->setMat4("model", model);
     shader->setMat4("view", view);
     shader->setMat4("projection", projection);
@@ -86,5 +91,12 @@ void Scop::load(const std::string &filename)
 void Scop::setShader(Shader *shader)
 {
     this->shader = shader;
+}
+
+void Scop::move()
+{
+    position.x += direction.x * Time::deltaTime;
+    position.y += direction.y * Time::deltaTime;
+    position.z += direction.z * Time::deltaTime;
 }
 

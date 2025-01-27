@@ -13,6 +13,11 @@
 
 class InputManager
 {
+    enum {
+        MOVE_CAMERA,
+        MOVE_OBJECT
+    };
+
 private:
     Camera *camera;
     Scop *scop;
@@ -21,6 +26,9 @@ private:
     float lastX;
     float lastY;
     float mixValue;
+    int inputMode;
+    bool wireframe = false;
+
 
 public:
     InputManager(GLFWwindow *window, Camera *camera, Scop *scop, LineDrawer *lineDrawer);

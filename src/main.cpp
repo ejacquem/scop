@@ -41,7 +41,7 @@ GLFWwindow *createWindow()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow *window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Scop", NULL, NULL);
     if (window == NULL)
     {
         glfwTerminate();
@@ -104,6 +104,7 @@ int main(int argc, char** argv)
         mat4 view          = camera.GetViewMatrix();
         mat4 projection    = perspective(radians(camera.fov), (float)width/(float)height, 0.0001f, 10000.0f);
 
+        scop.move();
         scop.draw((const GLfloat *)&model, (const GLfloat *)&view, (const GLfloat *)&projection);
 
         linedrawer.draw((const GLfloat *)&view, (const GLfloat *)&projection);
