@@ -33,7 +33,6 @@ enum Camera_Scroll_Mode {
 class Camera
 {
 public:
-    // camera Attributes
     vec3 position;
     vec3 front;
     vec3 up;
@@ -41,18 +40,16 @@ public:
     // euler Angles
     float pitch; // up/down
     float yaw;   // left/right
-    // camera options
+
     float speed;
     float sensitivity;
     float fov;
     bool constrainPitch;
 
-    // rotates around the world or not
     bool rotate;
     
     vec3 worldUp = vec3(0.0f, 1.0f, 0.0f);
 
-    // constructor with vectors
     Camera(vec3 pos = vec3(0.0f, 0.0f, 0.0f), vec2 direction = vec2(YAW, PITCH))
     {
         position = pos;
@@ -175,7 +172,6 @@ public:
         yaw   += xoffset;
         pitch += yoffset;
 
-        // make sure that when pitch is out of bounds, screen doesn't get flipped
         if (constrainPitch)
         {
             if (pitch > 85.0f)
@@ -195,7 +191,6 @@ public:
             setSpeed(this->speed * pow(1.5, yoffset));
         if (mode == FOV_MODE)
             setFov(fov - (float)(yoffset * 2));
-        std::cout << "speed: " << this->speed << std::endl;
     }
 
 private:

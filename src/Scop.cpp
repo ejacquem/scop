@@ -85,7 +85,17 @@ void Scop::load(const std::string &filename)
     }
     if (object)
         delete object;
-    object = objLoader.parse(filename);
+    try
+    {
+        object = objLoader.parse(filename);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error while loading the object: " << e.what() << std::endl;
+        if (object)
+            delete object;
+    }
+    
 }
 
 void Scop::setShader(Shader *shader)

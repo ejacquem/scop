@@ -28,12 +28,8 @@ void ObjectLoader::reset()
     vertices_buffer.clear();
     indices_buffer.clear();
 
-    maxx = -1000000.0f;
-    minx = +1000000.0f;
-    maxy = -1000000.0f;
-    miny = +1000000.0f;
-    maxz = -1000000.0f;
-    minz = +1000000.0f;
+    maxx = maxy = maxz = -1000000.0f;
+    minx = miny = minz = +1000000.0f;
 }
 
 Object* ObjectLoader::parse(const std::string &filePath)
