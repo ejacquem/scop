@@ -22,6 +22,8 @@ Scop::Scop()
     textures[6] = load_image("assets/cutecat.png", GL_REPEAT, 4);
     textures[7] = load_image("undefined", GL_REPEAT);
     textures_nbr = 8;
+    // textures[0] = load_image("undefined", GL_REPEAT);
+    // textures_nbr = 1;
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textures[0]);

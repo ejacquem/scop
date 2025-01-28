@@ -174,6 +174,10 @@ void InputManager::mouse_button_callback(GLFWwindow* window, int button, int act
             capturing_mouse = true;
             firstMouse = true;
         }
+        if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            capturing_mouse = false;
+        }
     }
     (void)mods;
 }

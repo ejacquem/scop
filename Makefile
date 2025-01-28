@@ -21,7 +21,7 @@ SRC		= src/main.cpp src/Shader.cpp\
 
 FILE?=teapot
 
-VALGRIND := valgrind --leak-check=full --suppressions=valgrind.supp
+VALGRIND := valgrind --max-stackframe=1000000 --suppressions=valgrind.supp
 VALGRINDGEN := valgrind --leak-check=full --gen-suppressions=all
 
 all: ${NAME}

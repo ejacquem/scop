@@ -59,7 +59,6 @@ GLFWwindow *createWindow()
     glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     return window;
 }
 
@@ -75,7 +74,7 @@ int main(int argc, char** argv)
     Skybox skybox;
     InputManager inputManager = InputManager(window, &camera, &scop, &linedrawer);
 
-    std::string filename = (argc >= 2 ? argv[1] : "teapot.obj");
+    std::string filename = (argc >= 2 ? argv[1] : "resources/teapot.obj");
     scop.load(filename);
 
     Shader defaultshader = Shader("shaders/default.vert", "shaders/default.frag");

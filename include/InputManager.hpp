@@ -28,7 +28,7 @@ private:
     float mixValue;
     int inputMode;
     bool wireframe = false;
-    bool capturing_mouse = true;
+    bool capturing_mouse = false;
     bool firstMouse = true;
 
 public:

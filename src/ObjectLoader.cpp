@@ -80,14 +80,16 @@ void ObjectLoader::parseIndice(const char *line)
     int i, j, k;
     if((line = strchr(line, ' ')))
         i = atoi(line);
+    else return;
     if((line = strchr(line + 1, ' ')))
         j = atoi(line);
+    else return;
     while((line = strchr(line + 1, ' ')))
     {
         k = atoi(line);
         int max_vertex_id = vertices_buffer.size();
-        // check if id or indices is valid so Alex can stop crashing my scop
-        if (i <= max_vertex_id && j <= max_vertex_id && k <= max_vertex_id)
+        // check if indice is valid so Alex can stop crashing my scop
+        if (i <= max_vertex_id && j <= max_vertex_id && k <= max_vertex_id && i > 0 && j > 0 && k > 0)
             indices_buffer.push_back({i - 1, j - 1, k - 1});
         j = k;
     }

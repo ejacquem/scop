@@ -1,0 +1,29 @@
+#this .obj file is for testing purposes
+
+# Vertices
+v  0.0  1.0  0.0 #top
+v -1.0  0.0  1.0
+v  1.0  0.0  1.0
+v  1.0  0.0 -1.0
+v -1.0  0.0 -1.0
+
+f 
+f 1 
+f 1 2
+f 1 2 3
+f 1 2 2147483647
+f 1 2 2147483648
+f 1 2 -2147483648
+f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+flol  5 5 5
+some bullshit here
+f 1bulshitafternumber1 2 3
+f 1 2bulshitafternumber2 3
+f 1 2 3bulshitafternumber3
+#f 1 2 3
+f 1 2 3
+f 1 2 3
+f 1 3 4
+f 1 4 5
+f 1 5 2
+f 2 3 4 5
